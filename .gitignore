@@ -1,0 +1,17 @@
+.idea/
+build/
+*.pyc
+CoreRPAHive.egg-info/
+dist/
+venv/
+Examples/report.html
+Examples/log.html
+Examples/output.xml
+test_save_report_result.xlsx
+Examples/test_data/DefaultDemoData-result.xlsx
+Examples/geckodriver.log
+Examples/RPA_report/
+Examples/red.xml
+robotframework_corerpahive.egg-info/
+Examples/.project
+Examples/.pydevproject
