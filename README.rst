@@ -14,7 +14,7 @@ Inspired by: https://github.com/Snooz82/robotframework-datadriver
 
 
 Keyword documentation
-------------
+---------------------
 
 See `keyword documentation <https://qahive.github.io/robotframework-ExcelDataDriver/ExcelDataDriver.html>`_ for available keywords and more information about the library in general.
 
@@ -91,17 +91,19 @@ ExcelDataDriver must be imported into your RF test suite.
 
 
 Enhancement and release
-------------
+-----------------------
 
 - Create update keyword documents
+
 .. code:: python
+
     python -m robot.libdoc -f html ExcelDataDriver docs/ExcelDataDriver.html
 
 - Extended (In-progress)
 
 
 Limitation
-------------
+----------
 
 ``Eclipse plug-in RED``
 
