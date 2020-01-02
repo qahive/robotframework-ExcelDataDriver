@@ -16,7 +16,7 @@ Inspired by: https://github.com/Snooz82/robotframework-datadriver
 Keyword documentation
 ------------
 
-See `keyword documentation <https://qahive.github.io/robotframework-ExcelDataDriver/ExcelDataDriven.html>`_ for available keywords and more information about the library in general.
+See `keyword documentation <https://qahive.github.io/robotframework-ExcelDataDriver/ExcelDataDriver.html>`_ for available keywords and more information about the library in general.
 
 
 Installation
@@ -53,7 +53,7 @@ Usage
 To write tests with Robot Framework and ExcelDataDriver,
 ExcelDataDriver must be imported into your RF test suite.
 
-1. Create Excel file by copy from template (`download <https://github.com/qahive/robotframework-CoreRPAHive/raw/master/Examples/test_data/DefaultDemoData.xlsx>`_).
+1. Create Excel file by copy from template (`download <https://github.com/qahive/robotframework-ExcelDataDriver/raw/master/Examples/test_data/DefaultDemoData.xlsx>`_).
 
     Mandatory Columns:
        - [Status]       For report test result Pass/Fail
