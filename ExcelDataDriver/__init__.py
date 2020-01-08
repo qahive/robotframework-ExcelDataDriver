@@ -462,7 +462,7 @@ class ExcelDataDriver:
         property_value = self.get_test_data_property(property_name)
 
         # Verify None
-        if allow_none == True and property_value == None:
+        if allow_none == True and property_value is None:
             return True
         try:
             if data_type == 'positive number':
