@@ -33,3 +33,7 @@ jobs:
         pip install nose
         pip install nose-html-reporting
         nosetests
+    - name: verify code standard
+      run: |
+        pip install pylint
+        pylint ExcelDataDriver
