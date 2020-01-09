@@ -1,4 +1,4 @@
-# Copyright 2020
+# Copyright 2020 Atthaboon S.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,8 +43,8 @@ __version__ = '1.0.0'
 
 class ExcelDataDriver:
     """
-    ExcelDataDriver is a Robotic Process Automation library (RPA) for RobotFramework that allow the developer create RPA script easier and reduce complexity under robot script layer.
-
+    ExcelDataDriver is a Robotic Process Automation library (RPA) for RobotFramework that allow the
+    developer create RPA script easier and reduce complexity under robot script layer.
     """
     ROBOT_LISTENER_API_VERSION = 3
     ROBOT_LIBRARY_SCOPE = 'TEST SUITE'
@@ -462,7 +462,7 @@ class ExcelDataDriver:
         property_value = self.get_test_data_property(property_name)
 
         # Verify None
-        if allow_none == True and property_value == None:
+        if allow_none == True and property_value is None:
             return True
         try:
             if data_type == 'positive number':
