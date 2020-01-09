@@ -1,8 +1,11 @@
 ExcelDataDriver
 ===============
-.. figure:: https://github.com/qahive/robotframework-ExcelDataDriver/workflows/Python%20package/badge.svg
-.. figure:: https://github.com/qahive/robotframework-ExcelDataDriver/workflows/Python%20code%20standard/badge.svg
-.. figure:: https://github.com/qahive/robotframework-ExcelDataDriver/workflows/Upload%20Python%20Package/badge.svg
+
++--+--+--+
+| .. figure:: https://github.com/qahive/robotframework-ExcelDataDriver/workflows/Python%20package/badge.svg 
+| .. figure:: https://github.com/qahive/robotframework-ExcelDataDriver/workflows/Python%20code%20standard/badge.svg 
+| .. figure:: https://github.com/qahive/robotframework-ExcelDataDriver/workflows/Upload%20Python%20Package/badge.svg |
++--+--+--+
 
 .. contents::
 
