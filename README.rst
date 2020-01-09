@@ -1,8 +1,9 @@
 ExcelDataDriver
 ===============
+.. figure:: https://github.com/qahive/robotframework-ExcelDataDriver/workflows/Python%20package/badge.svg
+    :width: 100%
 
 .. contents::
-
 
 Introduction
 ------------
