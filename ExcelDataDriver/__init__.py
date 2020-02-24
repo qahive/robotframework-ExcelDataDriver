@@ -212,7 +212,7 @@ class ExcelDataDriver:
     def _replace_test_case_name(self, test_data):
         keys = re.findall('\$\{(.*?)\}',self.test.name)
         for key in keys:
-            self.test.name = self.test.name.replace('${'+key+'}', test_data.get_test_data_property(key))
+            self.test.name = self.test.name.replace('${'+key+'}', str(test_data.get_test_data_property(key)))
 
     def _replace_test_case_keywords(self, test_data):
         self.test.keywords.clear()
