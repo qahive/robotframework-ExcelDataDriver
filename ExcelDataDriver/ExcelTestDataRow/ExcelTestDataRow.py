@@ -1,6 +1,7 @@
 from ExcelDataDriver.ExcelTestDataRow.MandatoryTestDataColumn import MANDATORY_TEST_DATA_COLUMN
 from ExcelDataDriver.ExcelTestDataRow.TestStatus import TEST_STATUSES
 from ExcelDataDriver.ExcelTestDataRow.TestStatus import TEST_STATUS_PRIORITIES
+from ExcelDataDriver.Config.DataTypes import DataTypes
 
 
 class ExcelTestDataRow:
@@ -15,6 +16,9 @@ class ExcelTestDataRow:
         self.log_message = log_message
         self.screenshot = screenshot
         self.tags = tags
+
+    def get_data_type(self):
+        return DataTypes.TEST_DATA
 
     def get_status(self):
         return self.status.value

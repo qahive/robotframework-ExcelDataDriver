@@ -1,5 +1,4 @@
 from collections import OrderedDict
-from ExcelDataDriver.ExcelParser import ABCParserStrategy
 
 
 class ParserContext:

@@ -1,3 +1,6 @@
+import sys
+import importlib
+from ExcelDataDriver.ExcelParser.ParserContext import ParserContext
 from ExcelDataDriver.ExcelParser.DefaultParserStrategy import DefaultParserStrategy
 from ExcelDataDriver.Util.OpenpyxlHelper import OpenpyxlHelper
 from ExcelDataDriver.base.robotlibcore import keyword
@@ -16,6 +19,38 @@ class CoreExcelKeywords(object):
         self.total_datas = []
         self.rerun_failed = True
 
+        # Reference data
+        self.reference_data = dict()
+
+    ####################################################
+    #
+    # Load reference excel datas
+    #
+    ####################################################
+    @keyword
+    def load_reference_data(self, alias_name, filename, custom_parser_module='ExcelDataDriver.ExcelParser.DefaultReferenceParserStrategy', custom_parser_class='DefaultReferenceParserStrategy'):
+        """
+        Load reference data with specific Parser
+
+        Arguments:
+        |  alias_name           |   alias_name for refer to the reference data |
+        |  filename (string)    |   The file name string value that will be used to open the excel file to perform tests upon. |
+        |  custom_parser_module |   Test data parser module is ExcelDataDriver.ExcelParser.DefaultReferenceParserStrategy |
+        |  custom_parser_class  |   Test data parser class is DefaultReferenceParserStrategy |
+        """
+        reference_wb = OpenpyxlHelper.load_excel_file(filename)
+        CustomExcelParser = self._load_customer_class_from_module(custom_parser_module, custom_parser_class)
+        parser_context = ParserContext(CustomExcelParser())
+        self.reference_data[alias_name] = {
+            'selected': None,
+            'data': parser_context.parse(reference_wb)
+        }
+        reference_wb.close()
+
+    def _load_customer_class_from_module(self, module_name, class_name):
+        MyClass = getattr(importlib.import_module('ExcelDataDriver.ExcelParser.DefaultReferenceParserStrategy'), 'DefaultReferenceParserStrategy')
+        return MyClass
+
     ####################################################
     #
     # Manage Excel Keywords
@@ -32,7 +67,7 @@ class CoreExcelKeywords(object):
 
         Examples:
         | *Keywords*           |  *Parameters*                                      |
-        | Open Excel           |  C:\\Python\\XLSXRobotTest\\XLSXRobotTest.xlsx     |
+        | Load test data       |  C:\\Python\\XLSXRobotTest\\XLSXRobotTest.xlsx     |
 
         """
         self.fileName = filename
