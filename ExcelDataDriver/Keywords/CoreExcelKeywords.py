@@ -48,7 +48,7 @@ class CoreExcelKeywords(object):
         reference_wb.close()
 
     def _load_customer_class_from_module(self, module_name, class_name):
-        MyClass = getattr(importlib.import_module('ExcelDataDriver.ExcelParser.DefaultReferenceParserStrategy'), 'DefaultReferenceParserStrategy')
+        MyClass = getattr(importlib.import_module(module_name), class_name)
         return MyClass
 
     ####################################################

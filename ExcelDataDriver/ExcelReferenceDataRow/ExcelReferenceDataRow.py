@@ -14,7 +14,7 @@ class ExcelReferenceDataRow(object):
             if self.row_no is None:
                 self.row_no = excel_row[column_indexes[column_index_key] - 1].row
                 self.sheet_name = excel_row[column_indexes[column_index_key] - 1].parent.title
-            self.properties_list[column_index_key] = excel_row[column_indexes[column_index_key] - 1].value
+            self.properties_list[column_index_key.lower().strip().replace(' ', '_')] = excel_row[column_indexes[column_index_key] - 1].value
 
     def get_data_type(self):
         return DataTypes.REFERENCE_DATA
@@ -28,6 +28,5 @@ class ExcelReferenceDataRow(object):
     def get_test_data_property(self, property_name):
         try:
             return self.properties_list[property_name.lower().strip()]
-            # return self.excel_row[self.column_indexes[property_name.lower().strip()] - 1].value
         except:
             raise Exception('Can\'t find property name '+property_name+' under test data row index '+str(self.get_row_no()))

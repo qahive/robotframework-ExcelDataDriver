@@ -7,6 +7,9 @@ class DefaultReferenceParserStrategy(ABCParserStrategy):
     def __init__(self):
         ABCParserStrategy.__init__(self)
 
+    def is_ws_column_valid(self, ws, validate_result):
+        return validate_result
+
     def is_test_data_valid(self, ws_column_indexes, ws_title, row_index, row):
         return True
 

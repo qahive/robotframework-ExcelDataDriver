@@ -20,6 +20,7 @@ Enhance robot framework document:
     https://github.com/robotframework/robotframework/tree/master/doc/userguide/src/ExtendingRobotFramework
 """
 import glob
+import importlib
 import re
 import sys
 import os.path
@@ -76,6 +77,8 @@ class ExcelDataDriver:
             self.custom_parser = CustomExcelParser.CustomExcelParser()
         self.capture_screenshot_option = CaptureScreenShotOption[capture_screenshot]
         self.manually_test = manually_test
+        if self.file is None:
+            self.manually_test = True
 
         self.excelTestDataService = ExcelTestDataService()
         self.suite_source = None
@@ -92,6 +95,8 @@ class ExcelDataDriver:
         self.validate_data_only = validate_data_only
 
         self.screenshot_running_id = 0
+
+        self.reference_data = dict()
 
     def load_module(self, module):
         """``Important`` using by local library only."""
@@ -516,3 +521,63 @@ class ExcelDataDriver:
 
         """
         self.excelTestDataService.save_report(newfile)
+
+    ####################################################
+    #
+    # Load reference excel data
+    #
+    ####################################################
+    @keyword
+    def load_reference_data(self, alias_name, filename,
+                            custom_parser_module='ExcelDataDriver.ExcelParser.DefaultReferenceParserStrategy',
+                            custom_parser_class='DefaultReferenceParserStrategy'):
+        """
+        Load reference data with specific Parser
+
+        Arguments:
+        |  alias_name           |   alias_name for refer to the reference data |
+        |  filename (string)    |   The file name string value that will be used to open the excel file to perform tests upon. |
+        |  custom_parser_module |   Test data parser module is ExcelDataDriver.ExcelParser.DefaultReferenceParserStrategy |
+        |  custom_parser_class  |   Test data parser class is DefaultReferenceParserStrategy |
+        """
+        reference_wb = OpenpyxlHelper.load_excel_file(filename)
+        CustomExcelParser = getattr(importlib.import_module(custom_parser_module), custom_parser_class)
+        # CustomExcelParser = __import__(custom_parser_module)
+        # parser_context = ParserContext(CustomExcelParser.CustomExcelBreakdownParser())
+        parser_context = ParserContext(CustomExcelParser())
+        references_data_sheets = parser_context.parse(reference_wb)
+        reference_row_data = []
+        for sheet_name in references_data_sheets:
+            reference_row_data += references_data_sheets[sheet_name]
+        self.reference_data[alias_name] = {
+            'selected': None,
+            'data': reference_row_data
+        }
+        reference_wb.close()
+
+    @keyword
+    def select_reference_data_based_on_condition(self, alias_name, condition):
+        """
+        Select reference data based on condition
+
+        Arguments:
+        |  alias_name   | alias_name for refer to the reference data |
+        |  condition    | refer variable name 'data' |
+
+        Default Data Properties:
+            excel_title         string
+            excel_row_index     string
+            row_no              string
+            sheet_name          string
+            properties_list     dictionary: access to excel property with lower case and use _ instead of space
+        """
+        self.reference_data[alias_name]['selected'] = next(data for data in self.reference_data[alias_name]['data'] if eval(condition))
+
+    @keyword
+    def get_selected_reference_data_property(self, alias_name, property_name):
+        return self.reference_data[alias_name]['selected'].properties_list[property_name]
+
+    @keyword
+    def get_reference_data_property(self, alias_name, property_name, condition):
+        select = next(data for data in self.reference_data[alias_name]['data'] if eval(condition))
+        return select.properties_list[property_name]
