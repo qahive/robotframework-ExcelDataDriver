@@ -39,7 +39,7 @@ from ExcelDataDriver.Keywords.CoreExcelKeywords import CoreExcelKeywords
 from ExcelDataDriver.Config.CaptureScreenShotOption import CaptureScreenShotOption
 
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 
 class ExcelDataDriver:
@@ -581,3 +581,7 @@ class ExcelDataDriver:
     def get_reference_data_property(self, alias_name, property_name, condition):
         select = next(data for data in self.reference_data[alias_name]['data'] if eval(condition))
         return select.properties_list[property_name]
+
+    @keyword
+    def get_all_reference_data_based_on_condition(self, alias_name, condition):
+        return list(filter(lambda data: eval(condition), self.reference_data[alias_name]['data']))
