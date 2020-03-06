@@ -39,7 +39,7 @@ from ExcelDataDriver.Keywords.CoreExcelKeywords import CoreExcelKeywords
 from ExcelDataDriver.Config.CaptureScreenShotOption import CaptureScreenShotOption
 
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 
 
 class ExcelDataDriver:
@@ -55,10 +55,11 @@ class ExcelDataDriver:
     select_test_data = None
     parser_strategy = None
 
-    def __init__(self, file=None, custom_parser=None, capture_screenshot='Always', manually_test=False, validate_data_only=False):
+    def __init__(self, file=None, main_column_key=None, custom_parser=None, capture_screenshot='Always', manually_test=False, validate_data_only=False):
         """ExcelDataDriver can be imported with several optional arguments.
 
         - ``file``: Excel xlsx test data file.
+        - ``main_column_key``: Excel column key name.
         - ``custom_parser``: Default will use 'DefaultParserStrategy'.
         - ``capture_screenshot``: Config capture screen shot strategy. Option (Always, OnFailed, Skip) Default (Always).
         - ``validate_data_only``: For only validate the data in the excel file should be valid
@@ -71,10 +72,10 @@ class ExcelDataDriver:
         self.ROBOT_LIBRARY_LISTENER = self
         self.file = file
 
-        self.custom_parser = DefaultParserStrategy()
+        self.custom_parser = DefaultParserStrategy(main_column_key)
         if custom_parser is not None:
             CustomExcelParser = self.load_module(custom_parser)
-            self.custom_parser = CustomExcelParser.CustomExcelParser()
+            self.custom_parser = CustomExcelParser.CustomExcelParser(main_column_key)
         self.capture_screenshot_option = CaptureScreenShotOption[capture_screenshot]
         self.manually_test = manually_test
         if self.file is None:

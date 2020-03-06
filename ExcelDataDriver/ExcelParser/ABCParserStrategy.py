@@ -8,12 +8,13 @@ class ABCParserStrategy:
 
     __metaclass__ = ABCMeta
 
-    def __init__(self):
+    def __init__(self, main_column_key):
         self.MANDATORY_TEST_DATA_COLUMN = MANDATORY_TEST_DATA_COLUMN
         self.DEFAULT_COLUMN_INDEXS = self.MANDATORY_TEST_DATA_COLUMN.values()
         self.start_row = 1
         self.max_column = 50
         self.maximum_column_index_row = 5
+        self.main_column_key = main_column_key
 
     def is_ws_column_valid(self, ws, validate_result):
         ws_column_indexes = self.parsing_column_indexs(ws)
@@ -56,8 +57,9 @@ class ABCParserStrategy:
                 continue
             for cell in row:
                 if (cell.value is not None) and (cell.value not in self.DEFAULT_COLUMN_INDEXS):
-                    ws_column_indexs[str(cell.value).lower().strip()] = column_index_from_string(coordinate_from_string(cell.coordinate)[0])
-                    print('Optional : '+str(str(cell.value).lower().strip()) + ' : ' + str(cell.coordinate) + ' : ' + str(column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
+                    field_name = str(cell.value).lower().strip().replace(" ", "_")
+                    ws_column_indexs[field_name] = column_index_from_string(coordinate_from_string(cell.coordinate)[0])
+                    print('Optional : '+field_name + ' : ' + str(cell.coordinate) + ' : ' + str(column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
             break
         print('Done parsing column indexes')
         return ws_column_indexs

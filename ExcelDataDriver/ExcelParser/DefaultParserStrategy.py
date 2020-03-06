@@ -4,8 +4,8 @@ from ExcelDataDriver.ExcelTestDataRow import ExcelTestDataRow
 
 class DefaultParserStrategy(ABCParserStrategy):
 
-    def __init__(self):
-        ABCParserStrategy.__init__(self)
+    def __init__(self, main_column_key):
+        ABCParserStrategy.__init__(self, main_column_key)
 
     def is_test_data_valid(self, ws_column_indexes, ws_title, row_index, row):
         return True
@@ -17,7 +17,8 @@ class DefaultParserStrategy(ABCParserStrategy):
         tags = row[ws_column_indexes[self.MANDATORY_TEST_DATA_COLUMN['tags']] - 1]
 
         # Excel library send the last row with None data.
-        if row[-1].value is None:
+        main_key = row[ws_column_indexes[self.main_column_key] - 1]
+        if main_key is None:
             return None
 
         test_data_row = ExcelTestDataRow(ws_title, row_index, row, ws_column_indexes, status, log_message, screenshot, tags)
