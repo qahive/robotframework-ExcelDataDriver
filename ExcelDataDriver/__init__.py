@@ -39,7 +39,7 @@ from ExcelDataDriver.Keywords.CoreExcelKeywords import CoreExcelKeywords
 from ExcelDataDriver.Config.CaptureScreenShotOption import CaptureScreenShotOption
 
 
-__version__ = '1.1.1'
+__version__ = '1.1.2'
 
 
 class ExcelDataDriver:
@@ -529,7 +529,9 @@ class ExcelDataDriver:
     #
     ####################################################
     @keyword
-    def load_reference_data(self, alias_name, filename,
+    def load_reference_data(self, alias_name,
+                            filename,
+                            main_column_key,
                             custom_parser_module='ExcelDataDriver.ExcelParser.DefaultReferenceParserStrategy',
                             custom_parser_class='DefaultReferenceParserStrategy'):
         """
@@ -538,6 +540,7 @@ class ExcelDataDriver:
         Arguments:
         |  alias_name           |   alias_name for refer to the reference data |
         |  filename (string)    |   The file name string value that will be used to open the excel file to perform tests upon. |
+        |  main_column_key      |   Identify unique key for use as reference when parse the data |
         |  custom_parser_module |   Test data parser module is ExcelDataDriver.ExcelParser.DefaultReferenceParserStrategy |
         |  custom_parser_class  |   Test data parser class is DefaultReferenceParserStrategy |
         """
@@ -545,7 +548,7 @@ class ExcelDataDriver:
         CustomExcelParser = getattr(importlib.import_module(custom_parser_module), custom_parser_class)
         # CustomExcelParser = __import__(custom_parser_module)
         # parser_context = ParserContext(CustomExcelParser.CustomExcelBreakdownParser())
-        parser_context = ParserContext(CustomExcelParser())
+        parser_context = ParserContext(CustomExcelParser(main_column_key))
         references_data_sheets = parser_context.parse(reference_wb)
         reference_row_data = []
         for sheet_name in references_data_sheets:
