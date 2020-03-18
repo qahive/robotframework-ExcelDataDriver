@@ -39,7 +39,7 @@ from ExcelDataDriver.Keywords.CoreExcelKeywords import CoreExcelKeywords
 from ExcelDataDriver.Config.CaptureScreenShotOption import CaptureScreenShotOption
 
 
-__version__ = '1.1.3'
+__version__ = '1.1.4'
 
 
 class ExcelDataDriver:
@@ -558,6 +558,10 @@ class ExcelDataDriver:
             'data': reference_row_data
         }
         reference_wb.close()
+
+    @keyword
+    def select_reference_data(self, alias_name, data):
+        self.reference_data[alias_name]['selected'] = data
 
     @keyword
     def select_reference_data_based_on_condition(self, alias_name, condition):
