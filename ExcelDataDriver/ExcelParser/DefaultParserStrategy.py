@@ -18,7 +18,7 @@ class DefaultParserStrategy(ABCParserStrategy):
 
         # Excel library send the last row with None data.
         main_key = row[ws_column_indexes[self.main_column_key] - 1]
-        if main_key is None:
+        if main_key.value is None or main_key.value == '':
             return None
 
         test_data_row = ExcelTestDataRow(ws_title, row_index, row, ws_column_indexes, status, log_message, screenshot, tags)
