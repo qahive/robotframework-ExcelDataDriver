@@ -39,7 +39,7 @@ from ExcelDataDriver.Keywords.CoreExcelKeywords import CoreExcelKeywords
 from ExcelDataDriver.Config.CaptureScreenShotOption import CaptureScreenShotOption
 
 
-__version__ = '1.1.4'
+__version__ = '1.1.5'
 
 
 class ExcelDataDriver:
@@ -315,7 +315,7 @@ class ExcelDataDriver:
             self.excelTestDataService.update_test_result(keyword_status, log_message, screenshot)
 
     @keyword
-    def merged_excel_report(self, data_type='DefaultParserStrategy'):
+    def merged_excel_report(self, main_column_key, data_type='DefaultParserStrategy'):
         """
         Merged all test data from report folder into summary_report.xlsx under summary_report_folder
 
@@ -344,8 +344,10 @@ class ExcelDataDriver:
         overall_test_status_is_pass = True
         summary_error_message = ''
 
-        CustomExcelParser = self.load_module(data_type)
-        parser_strategy =  CustomExcelParser.CustomExcelParser()
+        parser_strategy = DefaultParserStrategy(main_column_key)
+        if data_type != 'DefaultParserStrategy':
+            CustomExcelParser = self.load_module(data_type)
+            parser_strategy = CustomExcelParser.CustomExcelParser()
         parser_context = ParserContext(parser_strategy)
 
         print('Parse wb')
@@ -359,8 +361,6 @@ class ExcelDataDriver:
         for report in reports:
             print('Merged ws test datas : '+report)
             wb = OpenpyxlHelper.load_excel_file(report, data_only=False, keep_vba=False)
-            CustomExcelParser = self.load_module(data_type)
-            parser_strategy = CustomExcelParser.CustomExcelParser()
             parser_context = ParserContext(parser_strategy)
             wb_test_datas = parser_context.parse(wb)
 
@@ -390,7 +390,7 @@ class ExcelDataDriver:
     #
     ####################################################
     @keyword
-    def load_test_data(self, filename, data_type=None):
+    def load_test_data(self, filename, main_column_key, data_type=None):
         """
         Load excel test data
 
@@ -405,10 +405,10 @@ class ExcelDataDriver:
         """
         if data_type is not None:
             CustomExcelParser = self.load_module(data_type)
-            custom_parser = CustomExcelParser.CustomExcelParser()
+            custom_parser = CustomExcelParser.CustomExcelParser(main_column_key)
             self.excelTestDataService.load_test_data(filename, custom_parser)
         else:
-            self.excelTestDataService.load_test_data(filename, DefaultParserStrategy())
+            self.excelTestDataService.load_test_data(filename, DefaultParserStrategy(main_column_key))
 
     @keyword
     def get_all_test_data(self, rerun_only_failed=False, offset_row=0, maximum_row=None):
