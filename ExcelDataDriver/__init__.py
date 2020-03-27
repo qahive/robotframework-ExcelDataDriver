@@ -39,7 +39,7 @@ from ExcelDataDriver.Keywords.CoreExcelKeywords import CoreExcelKeywords
 from ExcelDataDriver.Config.CaptureScreenShotOption import CaptureScreenShotOption
 
 
-__version__ = '1.1.5'
+__version__ = '1.1.6'
 
 
 class ExcelDataDriver:
@@ -579,7 +579,10 @@ class ExcelDataDriver:
             sheet_name          string
             properties_list     dictionary: access to excel property with lower case and use _ instead of space
         """
-        self.reference_data[alias_name]['selected'] = next(data for data in self.reference_data[alias_name]['data'] if eval(condition))
+        try:
+            self.reference_data[alias_name]['selected'] = next(data for data in self.reference_data[alias_name]['data'] if eval(condition))
+        except Exception:
+            raise Exception("Can't select reference data based on condition "+str(condition))
 
     @keyword
     def get_selected_reference_data_property(self, alias_name, property_name):
