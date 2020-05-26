@@ -1,6 +1,6 @@
 *** Setting ***
 Library    SeleniumLibrary
-Library    ExcelDataDriver    ./test_data/DefaultDemoData.xlsx    capture_screenshot_when_fail_only=${True}
+Library    ExcelDataDriver    ./test_data/DefaultDemoData.xlsx     main_column_key=username    capture_screenshot=OnFailed
 Test Template    Invalid login
 Suite Teardown    Close All Browsers
 

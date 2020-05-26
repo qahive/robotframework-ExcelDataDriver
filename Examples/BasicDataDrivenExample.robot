@@ -1,5 +1,5 @@
 *** Setting ***
-Library    ExcelDataDriver    ./test_data/BasicDemoData.xlsx    capture_screenshot=Skip
+Library    ExcelDataDriver    ./test_data/BasicDemoData.xlsx    capture_screenshot=Skip    main_column_key=username
 Test Template    Validate user data template
 
 *** Test Cases ***
@@ -11,5 +11,4 @@ Validate user data template
     Log    ${username}
     Log    ${password}
     Log    ${email}
-    Should Be True    '${password}' != '${None}'
-    # Should Match Regexp    ${email}    [A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}
+    Should Not Be Equal    ${password}    ${None}

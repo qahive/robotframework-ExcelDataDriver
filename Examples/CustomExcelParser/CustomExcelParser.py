@@ -6,11 +6,11 @@ from ExcelDataDriver.ExcelTestDataRow import ExcelTestDataRow
 
 class CustomExcelParser(ABCParserStrategy):
     
-    def __init__(self):
-        ABCParserStrategy.__init__(self)
+    def __init__(self, main_column_key=None):
+        ABCParserStrategy.__init__(self, main_column_key)
         print('Using CustomExcelParser')
-        self.maximum_column_index_row = 3
-        self.start_row = 1
+        self.maximum_column_index_row = 2
+        self.start_row = 3
 
     def parsing_column_indexs(self, ws):
         '''
