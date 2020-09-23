@@ -536,7 +536,7 @@ class ExcelDataDriver:
         CustomExcelParser = getattr(importlib.import_module(custom_parser_module), custom_parser_class)
         parser_context = ParserContext(CustomExcelParser(main_column_key))
         parser_context.insert_extra_columns(reference_wb, columns)
-        reference_wb.save('./test_data/BasicDemoData2.xlsx')
+        reference_wb.save(filename)
 
     ####################################################
     #
