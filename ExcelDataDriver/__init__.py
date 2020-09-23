@@ -39,7 +39,7 @@ from ExcelDataDriver.Keywords.CoreExcelKeywords import CoreExcelKeywords
 from ExcelDataDriver.Config.CaptureScreenShotOption import CaptureScreenShotOption
 
 
-__version__ = '1.1.6'
+__version__ = '1.1.7'
 
 
 class ExcelDataDriver:
@@ -522,6 +522,21 @@ class ExcelDataDriver:
 
         """
         self.excelTestDataService.save_report(newfile)
+
+    ####################################################
+    #
+    # Insert selective columns
+    #
+    ####################################################
+    @keyword
+    def auto_insert_extra_columns(self, filename, main_column_key, columns=[],
+                                  custom_parser_module='ExcelDataDriver.ExcelParser.DefaultReferenceParserStrategy',
+                                  custom_parser_class='DefaultReferenceParserStrategy'):
+        reference_wb = OpenpyxlHelper.load_excel_file(filename)
+        CustomExcelParser = getattr(importlib.import_module(custom_parser_module), custom_parser_class)
+        parser_context = ParserContext(CustomExcelParser(main_column_key))
+        parser_context.insert_extra_columns(reference_wb, columns)
+        reference_wb.save(filename)
 
     ####################################################
     #
