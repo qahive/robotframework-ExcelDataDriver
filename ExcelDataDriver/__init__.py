@@ -25,6 +25,7 @@ import re
 import sys
 import os.path
 import shutil
+from datetime import datetime
 from copy import deepcopy
 from datetime import datetime
 from robot.libraries.BuiltIn import BuiltIn
@@ -69,6 +70,7 @@ class ExcelDataDriver:
         - ``MAXIMUM_ROW``: Maximum test data row. (default is None)
 
         """
+        print(str(datetime.now()) + ': Init RPA ExcelDataDriver Library')
         self.ROBOT_LIBRARY_LISTENER = self
         self.file = file
 
@@ -108,6 +110,7 @@ class ExcelDataDriver:
         return __import__(module_path, fromlist=[module])
 
     def start_suite(self, suite, result):
+        print(str(datetime.now()) + ': start_suite')
         """``Important`` using by local library only."""
         if self.manually_test:
             return
@@ -139,6 +142,8 @@ class ExcelDataDriver:
         suite.tests = temp_test_list
 
     def end_suite(self, name, attributes):
+        print(str(datetime.now()) + ': end_suite')
+
         """``Important`` using by local library only."""
         if self.manually_test:
             return
@@ -186,7 +191,6 @@ class ExcelDataDriver:
         Values are data of this column as array.
         """
         # Load xlsx test data file
-        print('Load excel xlsx test data file')
         self.excelTestDataService.load_test_data(self.file, self.custom_parser)
         offset_row = BuiltIn().get_variable_value('${OFFSET_ROW}', 0)
         maximum_row = BuiltIn().get_variable_value('${MAXIMUM_ROW}', None)
@@ -237,16 +241,13 @@ class ExcelDataDriver:
                                       args=self.template_test.keywords.teardown.args)
 
     def _add_test_case_tags(self, test_data):
-        # print('Set Test case tags')
         for tag in test_data.get_testcase_tags():
             self.test.tags.add(tag)
 
     def _get_template_args(self, test_data):
-        # print('Set Template args')
         return_args = []
         for arg in self.template_keyword.args:
             arg = arg.replace('${', '').replace('}', '')
-            print(arg)
             return_args.append(test_data.get_test_data_property(arg))
         return return_args
 

@@ -1,3 +1,4 @@
+from datetime import datetime
 from abc import ABCMeta, abstractmethod
 from ExcelDataDriver.ExcelTestDataRow.MandatoryTestDataColumn import MANDATORY_TEST_DATA_COLUMN
 from openpyxl.utils import column_index_from_string
@@ -16,14 +17,13 @@ class ABCParserStrategy:
         self.maximum_column_index_row = 5
         self.main_column_key = main_column_key
 
-    def is_ws_column_valid(self, ws, validate_result):
-        ws_column_indexes = self.parsing_column_indexs(ws)
+    def is_ws_column_valid(self, ws, ws_column_indexes, validate_result):
         diff_column_list = list(set(self.DEFAULT_COLUMN_INDEXS) - set(ws_column_indexes))
         if len(diff_column_list) > 0:
             validate_result['is_pass'] = False
             validate_result['error_message'] += "[" + ws.title + "] Excel column " + ", ".join(
                 diff_column_list) + " are missing.\r\n"
-            print("[" + ws.title + "] Excel column " + ", ".join(diff_column_list) + " are missing.")
+            print(str(datetime.now())+": [" + ws.title + "] Excel column " + ", ".join(diff_column_list) + " are missing.")
         return validate_result
 
     @abstractmethod
@@ -44,7 +44,7 @@ class ABCParserStrategy:
             for cell in row:
                 if (cell.value is not None) and (cell.value in self.DEFAULT_COLUMN_INDEXS):
                     ws_column_indexs[cell.value] = column_index_from_string(coordinate_from_string(cell.coordinate)[0])
-                    print('Mandatory : '+str(cell.value) + ' : ' + str(cell.coordinate) + ' : ' + str(column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
+                    print(str(datetime.now())+': Mandatory : '+str(cell.value) + ' : ' + str(cell.coordinate) + ' : ' + str(column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
                     self.start_row = index + 1
             if len(ws_column_indexs) > 0:
                 break
@@ -59,9 +59,8 @@ class ABCParserStrategy:
                 if (cell.value is not None) and (cell.value not in self.DEFAULT_COLUMN_INDEXS):
                     field_name = str(cell.value).lower().strip().replace(" ", "_")
                     ws_column_indexs[field_name] = column_index_from_string(coordinate_from_string(cell.coordinate)[0])
-                    print('Optional : '+field_name + ' : ' + str(cell.coordinate) + ' : ' + str(column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
+                    print(str(datetime.now())+': Optional : '+field_name + ' : ' + str(cell.coordinate) + ' : ' + str(column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
             break
-        print('Done parsing column indexes')
         return ws_column_indexs
 
     def parse_test_data_properties(self, ws, ws_column_indexs):
@@ -75,6 +74,6 @@ class ABCParserStrategy:
                 test_datas.append(test_data)
             else:
                 break
-        print('Total test datas: ' + str(len(test_datas)))
+        print(str(datetime.now())+': Total test datas: ' + str(len(test_datas)))
         return test_datas
 

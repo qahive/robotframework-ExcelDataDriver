@@ -1,3 +1,4 @@
+from datetime import datetime
 from ExcelDataDriver.ExcelParser import ParserContext
 from ExcelDataDriver.ExcelParser.DefaultParserStrategy import DefaultParserStrategy
 from ExcelDataDriver.Util.OpenpyxlHelper import OpenpyxlHelper
@@ -33,12 +34,15 @@ class ExcelTestDataService(object):
         | Open Excel           |  C:\\Python27\\XLSXRobotTest\\XLSXRobotTest.xlsx   |
 
         """
+        print(str(datetime.now()) + ': Load test data '+filename)
         self.fileName = filename
         self.custom_parser = custom_parser
 
         self.ws_test_datas = {}
         self.total_datas = []
+        print(str(datetime.now()) + ': Excel loading....')
         self.wb = OpenpyxlHelper.load_excel_file(self.fileName)
+        print(str(datetime.now()) + ': Excel load finished.')
         ExcelTestDataService.parser_strategy = custom_parser
         self.parser_context = ParserContext(ExcelTestDataService.parser_strategy)
         self.ws_test_datas = self.parser_context.parse(self.wb)
@@ -110,6 +114,7 @@ class ExcelTestDataService(object):
         Clear test result for all rerun test cases
         :return:
         """
-        print('Clear test result...')
+        print(str(datetime.now())+': Clear test result...')
         for test_data in self.total_datas:
             test_data.clear_test_result()
+        print(str(datetime.now())+': Clear test result completed')
