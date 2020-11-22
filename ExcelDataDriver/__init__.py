@@ -266,7 +266,6 @@ class ExcelDataDriver:
     def _capture_screenshot(self):
         try:
             # Capture selenium screenshot
-            custom_selenium = CustomSelenium()
             today = datetime.now()
             date_and_time = today.strftime("%Y%m%d%H%M%S")
             screenshot_name = date_and_time + '_' + str(self.screenshot_running_id) + '.png'
@@ -275,10 +274,24 @@ class ExcelDataDriver:
                 os.makedirs('./' + ExcelDataDriver.REPORT_PATH + '/screenshots/')
             except:
                 None
+
+            # Capture screenshot by selenium
+            is_capture_success = False
             try:
+                custom_selenium = CustomSelenium()
                 custom_selenium.capture_full_page_screenshot('./'+ExcelDataDriver.REPORT_PATH+'/screenshots/'+screenshot_name)
+                is_capture_success = True
             except Exception as e:
-                return str(e)
+                is_capture_success = False
+
+            # Capture screenshot by puppeteer
+            if is_capture_success is False:
+                try:
+                    library = BuiltIn().get_library_instance('PuppeteerLibrary')
+                    library.capture_page_screenshot('./'+ExcelDataDriver.REPORT_PATH+'/screenshots/'+screenshot_name, True)
+                except Exception as e:
+                    return e
+
             return '=HYPERLINK(".//screenshots//' + screenshot_name + '","' + screenshot_name + '")'
         except:
             return None

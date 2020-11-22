@@ -44,6 +44,7 @@ setup(
         'setuptools==41.0.1',
         'Pillow>=6.2.1',
         'robotframework-seleniumlibrary',
+        'robotframework-puppeteerlibrary',
     ],
     python_requires='>3.5',
     test_suite='nose.collector',
