@@ -28,10 +28,10 @@ class ParserContext:
         return ws_test_data_rows
 
     def insert_extra_columns(self, wb, columns):
-        for ws in list(wb):
+        for ws in self.parser_strategy.get_all_worksheet(wb):
             ws_column_indexs = self.parser_strategy.parsing_column_indexs(ws)
             for column in reversed(columns):
                 if column in ws_column_indexs:
                     continue
                 ws.insert_cols(1)
-                ws['A' + str(self.parser_strategy.start_row)] = column
+                ws['A' + str(self.parser_strategy.start_row - 2)] = column
