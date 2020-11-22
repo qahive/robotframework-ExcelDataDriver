@@ -5,7 +5,7 @@ class OpenpyxlHelper(object):
 
     @staticmethod
     def load_excel_file(filename, data_only=True, keep_vba=False):
-        return load_workbook(filename=filename, data_only=data_only, keep_vba=keep_vba, read_only=False)
+        return load_workbook(filename=filename, data_only=data_only, keep_vba=keep_vba, read_only=False, keep_links=False)
 
     @staticmethod
     def save_excel_file(filename, source_wb):

@@ -40,10 +40,11 @@ setup(
     platforms='any',
     install_requires=[
         'inject==3.3.2',
-        'openpyxl==2.6.2',
+        'openpyxl==3.0.5',
         'setuptools==41.0.1',
-        'Pillow==6.2.1',
+        'Pillow>=6.2.1',
         'robotframework-seleniumlibrary',
+        'robotframework-puppeteerlibrary',
     ],
     python_requires='>3.5',
     test_suite='nose.collector',

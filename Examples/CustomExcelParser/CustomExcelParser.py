@@ -1,3 +1,4 @@
+from datetime import datetime
 from openpyxl.utils import column_index_from_string
 from openpyxl.utils.cell import coordinate_from_string
 from ExcelDataDriver.ExcelParser.ABCParserStrategy import ABCParserStrategy
@@ -35,7 +36,6 @@ class CustomExcelParser(ABCParserStrategy):
             for cell in row:
                 if (cell.value is not None) and (cell.value in self.DEFAULT_COLUMN_INDEXS):
                     ws_column_indexs[cell.value] = column_index_from_string(coordinate_from_string(cell.coordinate)[0])
-                    print('Mandatory : '+str(cell.value) + ' : ' + str(cell.coordinate) + ' : ' + str(column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
             if len(ws_column_indexs) > 0:
                 break
             
@@ -79,7 +79,7 @@ class CustomExcelParser(ABCParserStrategy):
                     ws_column_indexs[column_name] = column_index_from_string(coordinate_from_string(cell.coordinate)[0])
                     print('Optional : '+str(column_name) + ' : ' + str(cell.coordinate) + ' : ' + str(column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
         
-        print('Done parsing column indexes')
+        print(str(datetime.now())+': Done parsing column indexes')
         return ws_column_indexs
     
     def parse_test_data_properties(self, ws, ws_column_indexs):
@@ -93,7 +93,7 @@ class CustomExcelParser(ABCParserStrategy):
                 test_datas.append(test_data)
             else:
                 break
-        print('Total test datas: ' + str(len(test_datas)))
+        print(str(datetime.now())+': Total test datas: ' + str(len(test_datas)))
         return test_datas
 
     def is_test_data_valid(self, ws_column_indexes, ws_title, row_index, row):
