@@ -35,14 +35,44 @@ class ABCParserStrategy:
     def get_all_worksheet(self, wb):
         return list(wb)
 
-    def parsing_column_indexs(self, ws):
+    def parsing_major_column_indexs(self, ws):
         ws_column_indexs = {}
+        key_index_row = 0
+        found_default_column_indexs = False
+
         # Parse mandatory property
         for index, row in enumerate(ws.rows):
             if index > self.maximum_column_index_row:
                 break
             for cell in row:
                 if (cell.value is not None) and (cell.value in self.DEFAULT_COLUMN_INDEXS):
+                    ws_column_indexs[cell.value] = column_index_from_string(coordinate_from_string(cell.coordinate)[0])
+                    print(str(datetime.now()) + ': Mandatory : ' + str(cell.value) + ' : ' + str(
+                        cell.coordinate) + ' : ' + str(
+                        column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
+                    key_index_row = index + 1
+                    found_default_column_indexs = True
+
+                if (cell.value is not None) and (cell.value not in self.DEFAULT_COLUMN_INDEXS) and (found_default_column_indexs is False):
+                    field_name = str(cell.value).lower().strip().replace(" ", "_")
+                    if field_name == self.main_column_key:
+                        key_index_row = index + 1
+
+            if len(ws_column_indexs) > 0:
+                break
+
+        return ws_column_indexs, key_index_row
+
+    def parsing_column_indexs(self, ws):
+        ws_column_indexs = {}
+
+        # Parse mandatory property
+        for index, row in enumerate(ws.rows):
+            if index > self.maximum_column_index_row:
+                break
+            for cell in row:
+                if (cell.value is not None) and (cell.value in self.DEFAULT_COLUMN_INDEXS):
+                    found_mandatory_property = True
                     ws_column_indexs[cell.value] = column_index_from_string(coordinate_from_string(cell.coordinate)[0])
                     print(str(datetime.now())+': Mandatory : '+str(cell.value) + ' : ' + str(cell.coordinate) + ' : ' + str(column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
                     self.start_row = index + 1

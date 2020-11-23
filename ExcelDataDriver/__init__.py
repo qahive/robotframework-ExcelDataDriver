@@ -40,7 +40,7 @@ from ExcelDataDriver.Keywords.CoreExcelKeywords import CoreExcelKeywords
 from ExcelDataDriver.Config.CaptureScreenShotOption import CaptureScreenShotOption
 
 
-__version__ = '1.2.1'
+__version__ = '1.2.2'
 
 
 class ExcelDataDriver:
