@@ -40,7 +40,7 @@ from ExcelDataDriver.Keywords.CoreExcelKeywords import CoreExcelKeywords
 from ExcelDataDriver.Config.CaptureScreenShotOption import CaptureScreenShotOption
 
 
-__version__ = '1.2.2'
+__version__ = '1.2.3'
 
 
 class ExcelDataDriver:
@@ -302,6 +302,10 @@ class ExcelDataDriver:
     #
     #############################################
     @keyword
+    def update_test_property(self, property_name, property_value):
+        self.excelTestDataService.update_test_property(property_name, property_value)
+
+    @keyword
     def update_test_result(self, status, log_message=None, screenshot=None):
         """
         Manual update test result by call this keyword
@@ -465,6 +469,17 @@ class ExcelDataDriver:
             | property_name | Test data property name should be lower case                    |
         """
         return self.excelTestDataService.get_test_data_property(property_name)
+
+    @keyword
+    def update_test_data_property(self, property_name, property_value):
+        """
+        Update test data property
+
+        Arguments:
+            | property_name  | Test data property name should be lower case                    |
+            | property_value | Test data value                                                 |
+        """
+        return self.excelTestDataService.update_test_property(property_name, property_value)
 
     @keyword
     def verify_update_data_property(self, property_name, data_type, allow_none=True, *data_list):

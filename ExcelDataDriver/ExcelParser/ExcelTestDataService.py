@@ -89,6 +89,9 @@ class ExcelTestDataService(object):
     def get_test_data_property(self, property_name):
         return ExcelTestDataService.select_test_data.get_test_data_property(property_name)
 
+    def update_test_property(self, property_name, property_value):
+        ExcelTestDataService.select_test_data.set_test_data_property(property_name, property_value)
+
     def update_test_result(self, status, log_message=None, screenshot=None):
         ExcelTestDataService.select_test_data.update_result(status, log_message, screenshot)
 

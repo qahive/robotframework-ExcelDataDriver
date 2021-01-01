@@ -46,7 +46,7 @@ setup(
         'robotframework-seleniumlibrary',
         'robotframework-puppeteerlibrary',
     ],
-    python_requires='>3.5',
+    python_requires='>3.6',
     test_suite='nose.collector',
     tests_require=['nose', 'parameterized'],
     zip_safe=False,
