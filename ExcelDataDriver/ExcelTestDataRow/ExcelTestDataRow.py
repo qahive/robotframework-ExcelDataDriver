@@ -49,6 +49,13 @@ class ExcelTestDataRow:
         except:
             raise Exception('Can\'t find property name '+property_name+' under test data row index '+str(self.get_row_no()))
 
+    def set_test_data_property(self, property_name, property_value):
+        try:
+            self.excel_row[self.column_indexes[property_name.lower().strip()] - 1].value = property_value
+        except:
+            raise Exception(
+                'Can\'t set property name ' + property_name + ' under test data row index ' + str(self.get_row_no()))
+
     def get_excel_results(self):
         update_data = [cell.value for cell in self.excel_row]
         update_data[self.column_indexes[MANDATORY_TEST_DATA_COLUMN['status']] - 1] = self.status
