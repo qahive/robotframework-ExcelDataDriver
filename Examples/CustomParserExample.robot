@@ -3,6 +3,8 @@ Library    CustomExcelParser/CustomExcelParser.py
 Library    ExcelDataDriver    ./test_data/Custom_Template.xlsx    main_column_key=sku    custom_parser=CustomExcelParser    capture_screenshot=OnFailed
 Test Template    Demo template
 
+*** Variables ***
+${sku}    ${EMPTY}
 
 *** Test Cases ***
 Product promo price update for SKU '${sku}'    ${None}    ${None}    ${None}    ${None}    ${None}    ${None}    ${None}    ${None}    ${None}
