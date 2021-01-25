@@ -54,7 +54,7 @@ class ABCParserStrategy:
                     found_default_column_indexs = True
 
                 if (cell.value is not None) and (cell.value not in self.DEFAULT_COLUMN_INDEXS) and (found_default_column_indexs is False):
-                    field_name = str(cell.value).lower().strip().replace(" ", "_")
+                    field_name = self._cleanup_fieldname(cell.value)
                     if field_name == self.main_column_key:
                         key_index_row = index + 1
 
@@ -87,7 +87,7 @@ class ABCParserStrategy:
                 continue
             for cell in row:
                 if (cell.value is not None) and (cell.value not in self.DEFAULT_COLUMN_INDEXS):
-                    field_name = str(cell.value).lower().strip().replace(" ", "_")
+                    field_name = self._cleanup_fieldname(cell.value)
                     ws_column_indexs[field_name] = column_index_from_string(coordinate_from_string(cell.coordinate)[0])
                     print(str(datetime.now())+': Optional : '+field_name + ' : ' + str(cell.coordinate) + ' : ' + str(column_index_from_string(coordinate_from_string(cell.coordinate)[0])))
             break
@@ -107,3 +107,9 @@ class ABCParserStrategy:
         print(str(datetime.now())+': Total test datas: ' + str(len(test_datas)))
         return test_datas
 
+    def _cleanup_fieldname(self, field_name):
+        field_name = str(field_name).lower().strip().replace(" ", "_")
+        field_name = field_name.replace("\r", "_")
+        field_name = field_name.replace("\n", "_")
+        field_name = field_name.replace("__", "_")
+        return field_name
